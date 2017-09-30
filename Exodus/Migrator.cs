@@ -14,6 +14,7 @@ namespace Exodus
         readonly MigratorConfiguration _configuration;
         readonly MigrationParser _migrationParser;
         readonly MigratorPipeline _pipeline;
+        Action<string> _log;
 
         public Migrator(MigratorConfiguration configuration)
         {
@@ -27,8 +28,16 @@ namespace Exodus
             ValidateExtendedConfiguration(nameof(DropCreateDatabase));
             var drop = new DropDatabaseIfExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
             var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(() => drop.Execute());
-            _pipeline.Setup.Add(() => create.Execute());
+            _pipeline.Setup.Add(async () =>
+            {
+                await drop.Execute();
+                Log($"Database {_configuration.DatabaseName} dropped.");
+            });
+            _pipeline.Setup.Add(async () =>
+            {
+                await create.Execute();
+                Log($"Database {_configuration.DatabaseName} created.");
+            });
             return this;
         }
 
@@ -36,7 +45,23 @@ namespace Exodus
         {
             ValidateExtendedConfiguration(nameof(CreateDatabaseIfNotExists));
             var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(() => create.Execute());
+            _pipeline.Setup.Add(async () => 
+            {
+                await create.Execute();
+                Log($"Database {_configuration.DatabaseName} created.");
+            });
+            return this;
+        }
+
+        public Migrator Log(Action<string> log)
+        {
+            _log = log;
+            return this;
+        }
+
+        public Migrator LogToConsole()
+        {
+            _log = message => Console.WriteLine(message);
             return this;
         }
 
@@ -60,14 +85,22 @@ namespace Exodus
             var projectDirectory = Directory.GetCurrentDirectory();
             var parseMigrationTasks = Directory
                 .EnumerateFiles(projectDirectory, "*.sql", SearchOption.AllDirectories)
-                .Select(async scriptFilePath => await _migrationParser.Parse(scriptFilePath))
+                .Select(scriptFilePath => _migrationParser.Parse(scriptFilePath))
                 .ToArray();
             var appliedVersions = await GetAppliedVersions();
             var migrationsPipeline = (await Task.WhenAll(parseMigrationTasks))
                 .OrderBy(migration => migration.Version)
                 .Where(migration => !appliedVersions.Contains(migration.Version))
-                .Select(migration => new RunMigration(_configuration.DatabaseConnectionString, migration))
-                .Select(command => (Func<Task>)(() => command.Execute()));
+                .Select(migration => new
+                {
+                    Subject = migration,
+                    Command = new RunMigration(_configuration.DatabaseConnectionString, migration)
+                })
+                .Select(migration => (Func<Task>) (async () =>
+                {
+                    await migration.Command.Execute();
+                    Log($"{migration.Subject.Version} - {migration.Subject.Name} applied.");
+                }));
             _pipeline.Migrations.AddRange(migrationsPipeline);
         }
 
@@ -95,5 +128,8 @@ namespace Exodus
                 $"you need to provide {nameof(MigratorConfiguration.ServerConnectionString)} and " +
                 $"{nameof(MigratorConfiguration.DatabaseName)} in migrator's configuration.");
         }
+
+        private void Log(string message)
+            => _log?.Invoke(message);
     }
 }

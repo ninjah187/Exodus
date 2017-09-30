@@ -16,6 +16,7 @@ namespace Exodus.Examples
                 "Server=(localDb)\\MSSQLLocalDB;Database=exodus.dev;Trusted_Connection=True;");
             var migrator = new Migrator(configuration);
             await migrator
+                .LogToConsole()
                 .DropCreateDatabase()
                 .Migrate();
             Console.ReadKey();

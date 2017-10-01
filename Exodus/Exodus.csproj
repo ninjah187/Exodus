@@ -3,10 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus</PackageId>
-    <PackageVersion>0.1.0-alpha</PackageVersion>
+    <PackageVersion>0.2.0-alpha</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Simple C# database migrator.</Description>
-    <PackageReleaseNotes>This version is not production ready. Preview only.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      This version is not production ready.
+      Features added:
+        - progress logging feature,
+        - explicit sync API.
+    </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>
 

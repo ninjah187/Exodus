@@ -1,0 +1,1 @@
+﻿INSERT INTO Users VALUES ('admin', 'SDBE6wVv9OR/SNpd8tsAhmJEoR1D9cpZPX7fAD+s5uI=', 'r3DTg3RZBWaa6603xxCseA==');

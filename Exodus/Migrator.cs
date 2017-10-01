@@ -55,7 +55,7 @@ namespace Exodus
             return this;
         }
 
-        public async Task Migrate()
+        public async Task MigrateAsync()
         {
             foreach (var middleware in _pipeline.Setup)
             {
@@ -70,6 +70,9 @@ namespace Exodus
             }
             Log("Work completed");
         }
+
+        public void Migrate()
+            => Task.WaitAll(MigrateAsync());
 
         private async Task BuildMigrationsPipeline()
         {

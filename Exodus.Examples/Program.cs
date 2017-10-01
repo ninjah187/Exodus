@@ -13,7 +13,7 @@ namespace Exodus.Examples
             await migrator
                 .DropCreateDatabase()
                 .LogToConsole()
-                .Migrate();
+                .MigrateAsync();
             Console.ReadKey();
         }
     }

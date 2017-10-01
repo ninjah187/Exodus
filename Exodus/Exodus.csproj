@@ -3,14 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus</PackageId>
-    <PackageVersion>0.2.0-alpha</PackageVersion>
+    <PackageVersion>0.3.0-alpha</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Simple C# database migrator.</Description>
+    <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>
     <PackageReleaseNotes>
       This version is not production ready.
-      Features added:
-        - progress logging feature,
-        - explicit sync API.
+      0.3.0-alpha features:
+      - loading migrations scripts from specified directory,
+      - loading migrations scripts from specified assembly.
     </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>

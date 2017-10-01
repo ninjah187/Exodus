@@ -12,6 +12,8 @@
       0.3.0-alpha features:
       - loading migrations scripts from specified directory,
       - loading migrations scripts from specified assembly.
+      0.3.1-alpha changes:
+      - internal changes in calling sync version of .Migrate().
     </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>

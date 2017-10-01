@@ -97,7 +97,7 @@ namespace Exodus
         }
 
         public void Migrate()
-            => Task.WaitAll(MigrateAsync());
+            => MigrateAsync().Wait();
 
         private async Task BuildMigrationsPipeline()
         {

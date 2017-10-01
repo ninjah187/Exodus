@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus", "Exodus\Exodus.csproj", "{127FEB88-C9F0-4A81-9568-43D54D56488F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Examples", "Exodus.Examples\Exodus.Examples.csproj", "{26CE57EA-6447-4887-AC1A-6F833FF6B2CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Examples", "Exodus.Examples\Exodus.Examples.csproj", "{26CE57EA-6447-4887-AC1A-6F833FF6B2CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Migrations", "Exodus.Migrations\Exodus.Migrations.csproj", "{90F52757-2686-469E-83F1-92304E5DA203}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{26CE57EA-6447-4887-AC1A-6F833FF6B2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CE57EA-6447-4887-AC1A-6F833FF6B2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CE57EA-6447-4887-AC1A-6F833FF6B2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F52757-2686-469E-83F1-92304E5DA203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F52757-2686-469E-83F1-92304E5DA203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F52757-2686-469E-83F1-92304E5DA203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F52757-2686-469E-83F1-92304E5DA203}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

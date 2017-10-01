@@ -6,20 +6,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Exodus
 {
     public class Migrator
     {
         readonly MigratorConfiguration _configuration;
-        readonly MigrationParser _migrationParser;
+        readonly MigrationDirectoryParser _migrationDirectoryParser;
+        readonly MigrationAssemblyParser _migrationAssemblyParser;
         readonly MigratorPipeline _pipeline;
+        string _migrationsDirectoryPath;
+        AssemblyName _migrationsAssemblyName;
         Action<string> _log;
 
         public Migrator(MigratorConfiguration configuration)
         {
             _configuration = configuration;
-            _migrationParser = new MigrationParser();
+            _migrationDirectoryParser = new MigrationDirectoryParser();
+            _migrationAssemblyParser = new MigrationAssemblyParser();
             _pipeline = new MigratorPipeline();
         }
 
@@ -55,6 +60,21 @@ namespace Exodus
             return this;
         }
 
+        public Migrator FromAssembly(string assemblyName)
+            => FromAssembly(new AssemblyName(assemblyName));
+
+        public Migrator FromAssembly(AssemblyName assemblyName)
+        {
+            _migrationsAssemblyName = assemblyName;
+            return this;
+        }
+
+        public Migrator FromDirectory(string migrationsDirectory)
+        {
+            _migrationsDirectoryPath = migrationsDirectory;
+            return this;
+        }
+
         public async Task MigrateAsync()
         {
             foreach (var middleware in _pipeline.Setup)
@@ -68,7 +88,7 @@ namespace Exodus
             {
                 await middleware();
             }
-            Log("Work completed");
+            Log("Completed");
         }
 
         public void Migrate()
@@ -77,22 +97,40 @@ namespace Exodus
         private async Task BuildMigrationsPipeline()
         {
             _pipeline.Migrations.Clear();
-            var projectDirectory = Directory.GetCurrentDirectory();
-            var parseMigrationTasks = Directory
-                .EnumerateFiles(projectDirectory, "*.sql", SearchOption.AllDirectories)
-                .Select(scriptFilePath => _migrationParser.Parse(scriptFilePath))
-                .ToArray();
+            var parseMigrationTasks = ParseMigrations();
             var appliedVersions = await GetAppliedVersions();
             var migrationsPipeline = (await Task.WhenAll(parseMigrationTasks))
-                .OrderBy(migration => migration.Version)
                 .Where(migration => !appliedVersions.Contains(migration.Version))
                 .Select(migration => new RunMigration(_configuration.DatabaseConnectionString, migration))
+                .GroupBy(command => command.Migration.Version)
+                .Select(group => group.First())
+                .OrderBy(command => command.Migration.Version)
                 .Select(command => (Func<Task>) (async () =>
                 {
                     await command.Execute();
                     Log($"{command.Migration.Version} - {command.Migration.Name}");
                 }));
             _pipeline.Migrations.AddRange(migrationsPipeline);
+        }
+
+        private IEnumerable<Task<Migration>> ParseMigrations()
+        {
+            if (_migrationsAssemblyName == null)
+            {
+                var projectDirectory = _migrationsDirectoryPath ?? Directory.GetCurrentDirectory();
+                return _migrationDirectoryParser.Parse(projectDirectory);
+            }
+            try
+            {
+                return _migrationAssemblyParser.Parse(_migrationsAssemblyName);
+            }
+            catch (FileNotFoundException)
+            {
+                throw new InvalidOperationException(
+                    $"Assembly {_migrationsAssemblyName.FullName} not found." +
+                    $"Check if migrations project is referenced and " +
+                    $"consider using full assembly name.");
+            }
         }
 
         private async Task<int[]> GetAppliedVersions()

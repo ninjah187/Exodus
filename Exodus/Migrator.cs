@@ -20,6 +20,11 @@ namespace Exodus
         AssemblyName _migrationsAssemblyName;
         Action<string> _log;
 
+        public Migrator(string connectionString)
+            : this(new MigratorConfiguration(connectionString))
+        {
+        }
+
         public Migrator(MigratorConfiguration configuration)
         {
             _configuration = configuration;

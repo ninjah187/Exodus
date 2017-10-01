@@ -28,16 +28,9 @@ namespace Exodus
             ValidateExtendedConfiguration(nameof(DropCreateDatabase));
             var drop = new DropDatabaseIfExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
             var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(async () =>
-            {
-                await drop.Execute();
-                Log($"Database {_configuration.DatabaseName} dropped.");
-            });
-            _pipeline.Setup.Add(async () =>
-            {
-                await create.Execute();
-                Log($"Database {_configuration.DatabaseName} created.");
-            });
+            _pipeline.Setup.Add(async () => Log($"Drop and create database: {_configuration.DatabaseName}"));
+            _pipeline.Setup.Add(() => drop.Execute());
+            _pipeline.Setup.Add(() => create.Execute());
             return this;
         }
 
@@ -45,11 +38,8 @@ namespace Exodus
         {
             ValidateExtendedConfiguration(nameof(CreateDatabaseIfNotExists));
             var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(async () => 
-            {
-                await create.Execute();
-                Log($"Database {_configuration.DatabaseName} created.");
-            });
+            _pipeline.Setup.Add(async () => Log($"Create database if not exists: {_configuration.DatabaseName}"));
+            _pipeline.Setup.Add(() => create.Execute());
             return this;
         }
 
@@ -73,10 +63,12 @@ namespace Exodus
             }
             await CreateMigrationsTableIfNotExists();
             await BuildMigrationsPipeline();
+            Log("Run migrations:");
             foreach (var middleware in _pipeline.Migrations)
             {
                 await middleware();
             }
+            Log("Work completed");
         }
 
         private async Task BuildMigrationsPipeline()
@@ -91,15 +83,11 @@ namespace Exodus
             var migrationsPipeline = (await Task.WhenAll(parseMigrationTasks))
                 .OrderBy(migration => migration.Version)
                 .Where(migration => !appliedVersions.Contains(migration.Version))
-                .Select(migration => new
+                .Select(migration => new RunMigration(_configuration.DatabaseConnectionString, migration))
+                .Select(command => (Func<Task>) (async () =>
                 {
-                    Subject = migration,
-                    Command = new RunMigration(_configuration.DatabaseConnectionString, migration)
-                })
-                .Select(migration => (Func<Task>) (async () =>
-                {
-                    await migration.Command.Execute();
-                    Log($"{migration.Subject.Version} - {migration.Subject.Name} applied.");
+                    await command.Execute();
+                    Log($"{command.Migration.Version} - {command.Migration.Name}");
                 }));
             _pipeline.Migrations.AddRange(migrationsPipeline);
         }

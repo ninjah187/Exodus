@@ -8,12 +8,12 @@ namespace Exodus.Commands
 {
     class RunMigration : Command
     {
-        public Migration Migration { get; }
+        readonly Migration _migration;
 
         public RunMigration(string connectionString, Migration migration)
             : base(connectionString)
         {
-            Migration = migration;
+            _migration = migration;
             Sql = $@"
                 {migration.Script}
                 INSERT INTO Migrations VALUES (@version, @appliedOn, @name);
@@ -22,9 +22,9 @@ namespace Exodus.Commands
 
         protected override void AddParameters(SqlParameterCollection parameters)
         {
-            parameters.Add(new SqlParameter("version", Migration.Version));
+            parameters.Add(new SqlParameter("version", _migration.Version));
             parameters.Add(new SqlParameter("appliedOn", DateTime.Now));
-            parameters.Add(new SqlParameter("name", Migration.Name));
+            parameters.Add(new SqlParameter("name", _migration.Name));
         }
     }
 }

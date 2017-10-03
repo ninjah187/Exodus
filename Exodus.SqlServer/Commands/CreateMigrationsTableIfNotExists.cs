@@ -1,9 +1,8 @@
-﻿using Exodus.Communication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Exodus.Commands
+namespace Exodus.SqlServer.Commands
 {
     class CreateMigrationsTableIfNotExists : Command
     {

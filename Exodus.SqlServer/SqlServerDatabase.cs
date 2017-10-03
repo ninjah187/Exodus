@@ -1,21 +1,21 @@
-﻿using Exodus.Commands;
-using Exodus.Queries;
+﻿using Exodus.SqlServer.Commands;
+using Exodus.SqlServer.Queries;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Communication
+namespace Exodus.SqlServer
 {
-    class Database : IDatabase
+    public class SqlServerDatabase : IDatabase
     {
         public string Name { get; }
 
         readonly string _connectionString;
         readonly string _serverConnectionString;
 
-        public Database(string connectionString)
+        public SqlServerDatabase(string connectionString)
         {
             _connectionString = connectionString;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus
 {
-    class Migration
+    public class Migration
     {
         public int Version { get; }
         public string Name { get; }

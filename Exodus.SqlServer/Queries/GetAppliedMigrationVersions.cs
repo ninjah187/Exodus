@@ -1,11 +1,10 @@
-﻿using Exodus.Communication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Queries
+namespace Exodus.SqlServer.Queries
 {
     class GetAppliedMigrationVersions : Query<int[]>
     {

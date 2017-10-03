@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Exodus.Migrations\Exodus.Migrations.csproj" />
-    <ProjectReference Include="..\Exodus\Exodus.csproj" />
+    <ProjectReference Include="..\Exodus.SqlServer\Exodus.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

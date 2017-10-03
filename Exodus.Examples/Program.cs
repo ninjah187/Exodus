@@ -12,7 +12,7 @@ namespace Exodus.Examples
 
         static async Task MainAsync()
         {
-            var migrator = new Migrator(
+            var migrator = new SqlServerMigrator(
                 "Server=(localDb)\\MSSQLLocalDB;Database=exodus.dev;Trusted_Connection=True;");
             await migrator
                 .DropCreateDatabase()

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Communication
+namespace Exodus
 {
-    interface IDatabase
+    public interface IDatabase
     {
         string Name { get; }
         Task DropIfExists();

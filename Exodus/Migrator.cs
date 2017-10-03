@@ -1,13 +1,10 @@
-﻿using Exodus.Commands;
-using Exodus.Queries;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Exodus.Communication;
 
 namespace Exodus
 {
@@ -21,9 +18,9 @@ namespace Exodus
         AssemblyName _migrationsAssemblyName;
         Action<string> _log;
 
-        public Migrator(string connectionString)
+        public Migrator(IDatabase database)
         {
-            _database = new Database(connectionString);
+            _database = database;
             _migrationDirectoryParser = new MigrationDirectoryParser();
             _migrationAssemblyParser = new MigrationAssemblyParser();
             _pipeline = new MigratorPipeline();

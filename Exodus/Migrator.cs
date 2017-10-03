@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Exodus.Communication;
 
 namespace Exodus
 {
     public class Migrator
     {
-        readonly MigratorConfiguration _configuration;
+        readonly IDatabase _database;
         readonly MigrationDirectoryParser _migrationDirectoryParser;
         readonly MigrationAssemblyParser _migrationAssemblyParser;
         readonly MigratorPipeline _pipeline;
@@ -21,13 +22,8 @@ namespace Exodus
         Action<string> _log;
 
         public Migrator(string connectionString)
-            : this(new MigratorConfiguration(connectionString))
         {
-        }
-
-        public Migrator(MigratorConfiguration configuration)
-        {
-            _configuration = configuration;
+            _database = new Database(connectionString);
             _migrationDirectoryParser = new MigrationDirectoryParser();
             _migrationAssemblyParser = new MigrationAssemblyParser();
             _pipeline = new MigratorPipeline();
@@ -35,21 +31,15 @@ namespace Exodus
 
         public Migrator DropCreateDatabase()
         {
-            ValidateExtendedConfiguration(nameof(DropCreateDatabase));
-            var drop = new DropDatabaseIfExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(async () => Log($"Drop and create database: {_configuration.DatabaseName}"));
-            _pipeline.Setup.Add(() => drop.Execute());
-            _pipeline.Setup.Add(() => create.Execute());
+            _pipeline.Setup.Add(() => _database.DropIfExists());
+            _pipeline.Setup.Add(() => _database.CreateIfNotExists());
             return this;
         }
 
         public Migrator CreateDatabaseIfNotExists()
         {
-            ValidateExtendedConfiguration(nameof(CreateDatabaseIfNotExists));
-            var create = new CreateDatabaseIfNotExists(_configuration.ServerConnectionString, _configuration.DatabaseName);
-            _pipeline.Setup.Add(async () => Log($"Create database if not exists: {_configuration.DatabaseName}"));
-            _pipeline.Setup.Add(() => create.Execute());
+            _pipeline.Setup.Add(async () => Log($"Create database if not exists: {_database.Name}"));
+            _pipeline.Setup.Add(() => _database.CreateIfNotExists());
             return this;
         }
 
@@ -86,7 +76,7 @@ namespace Exodus
             {
                 await middleware();
             }
-            await CreateMigrationsTableIfNotExists();
+            await _database.CreateMigrationsTableIfNotExists();
             await BuildMigrationsPipeline();
             Log("Run migrations:");
             foreach (var middleware in _pipeline.Migrations)
@@ -103,17 +93,16 @@ namespace Exodus
         {
             _pipeline.Migrations.Clear();
             var parseMigrationTasks = ParseMigrations();
-            var appliedVersions = await GetAppliedVersions();
+            var appliedVersions = await _database.GetAppliedMigrationVersions();
             var migrationsPipeline = (await Task.WhenAll(parseMigrationTasks))
-                .Where(migration => !appliedVersions.Contains(migration.Version))
-                .Select(migration => new RunMigration(_configuration.DatabaseConnectionString, migration))
-                .GroupBy(command => command.Migration.Version)
+                .GroupBy(migration => migration.Version)
                 .Select(group => group.First())
-                .OrderBy(command => command.Migration.Version)
-                .Select(command => (Func<Task>) (async () =>
+                .Where(migration => !appliedVersions.Contains(migration.Version))
+                .OrderBy(migration => migration.Version)
+                .Select(migration => (Func<Task>) (async () =>
                 {
-                    await command.Execute();
-                    Log($"{command.Migration.Version} - {command.Migration.Name}");
+                    await _database.RunMigration(migration);
+                    Log($"{migration.Version} - {migration.Name}");
                 }));
             _pipeline.Migrations.AddRange(migrationsPipeline);
         }
@@ -136,31 +125,6 @@ namespace Exodus
                     $"Check if migrations project is referenced and " +
                     $"consider using full assembly name.");
             }
-        }
-
-        private async Task<int[]> GetAppliedVersions()
-        {
-            var get = new GetAppliedMigrationVersions(_configuration.DatabaseConnectionString);
-            return await get.Execute();
-        }
-
-        private async Task CreateMigrationsTableIfNotExists()
-        {
-            var create = new CreateMigrationsTableIfNotExists(_configuration.DatabaseConnectionString);
-            await create.Execute();
-        }
-
-        private void ValidateExtendedConfiguration(string operationName)
-        {
-            if (!string.IsNullOrEmpty(_configuration.ServerConnectionString) &&
-                !string.IsNullOrEmpty(_configuration.DatabaseName))
-            {
-                return;
-            }
-            throw new InvalidOperationException(
-                $"In order to execute operation {operationName}, " +
-                $"you need to provide {nameof(MigratorConfiguration.ServerConnectionString)} and " +
-                $"{nameof(MigratorConfiguration.DatabaseName)} in migrator's configuration.");
         }
 
         private void Log(string message)

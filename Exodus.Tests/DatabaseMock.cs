@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,6 @@ namespace Exodus.Tests
 
         public bool DatabaseExists { get; set; }
         public bool MigrationsTableExists { get; set; }
-        public int[] AppliedMigrationVersions { get; set; } = new int[0];
         public List<Migration> AppliedMigrations { get; set; } = new List<Migration>();
 
         public string Name => "DatabaseMock";
@@ -45,7 +45,10 @@ namespace Exodus.Tests
         public Task<int[]> GetAppliedMigrationVersions()
         {
             GetAppliedMigrationVersionsCounter++;
-            return Task.FromResult(AppliedMigrationVersions);
+            var versions = AppliedMigrations
+                .Select(migration => migration.Version)
+                .ToArray();
+            return Task.FromResult(versions);
         }
 
         public Task RunMigration(Migration migration)

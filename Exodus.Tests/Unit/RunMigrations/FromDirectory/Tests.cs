@@ -1,29 +1,38 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Exodus.Tests.RunMigrations.FromAssembly
+namespace Exodus.Tests.Unit.RunMigrations.FromDirectory
 {
     public class Tests
     {
         [Fact]
-        public async Task RunMigrationsFromAssembly_OnEmptyExistingDatabase_AllMigrationsApplied()
+        public async Task RunMigrationsFromDirectory_OnEmptyExistingDatabase_AllMigrationsApplied()
         {
             var database = new DatabaseMock
             {
                 DatabaseExists = true
             };
-            var migrator = new Migrator(database);
-
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse("MockMigrationsDirectory"))
+                .Returns(() => new Task<Migration>[]
+                {
+                    Task.FromResult(new Migration(1, "TestMigration 01", "-- Test migration 01")),
+                    Task.FromResult(new Migration(2, "TestMigration 02", "-- Test migration 02"))
+                })
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
+            
             await migrator
-                .FromAssembly("Exodus.Tests.Migrations")
+                .FromDirectory("MockMigrationsDirectory")
                 .MigrateAsync();
 
             Assert.True(database.DatabaseExists);
             Assert.True(database.MigrationsTableExists);
-            Assert.Equal(0, database.AppliedMigrationVersions.Length);
             Assert.Equal(2, database.AppliedMigrations.Count);
             Assert.Equal(0, database.CreateIfNotExistsCounter);
             Assert.Equal(0, database.DropIfExistsCounter);
@@ -40,6 +49,8 @@ namespace Exodus.Tests.RunMigrations.FromAssembly
             Assert.Equal(2, appliedMigration.Version);
             Assert.Equal("TestMigration 02", appliedMigration.Name);
             Assert.Equal("-- Test migration 02", appliedMigration.Script);
+
+            directoryParser.Verify();
         }
     }
 }

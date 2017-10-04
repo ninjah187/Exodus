@@ -5,24 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Exodus.Parsers;
 
 namespace Exodus
 {
     public class Migrator
     {
         readonly IDatabase _database;
-        readonly MigrationDirectoryParser _migrationDirectoryParser;
-        readonly MigrationAssemblyParser _migrationAssemblyParser;
+        readonly IDirectoryParser _directoryParser;
+        readonly IAssemblyParser _assemblyParser;
         readonly MigratorPipeline _pipeline;
         string _migrationsDirectoryPath;
         AssemblyName _migrationsAssemblyName;
         Action<string> _log;
 
         public Migrator(IDatabase database)
+            : this(database,
+                   new DefaultDirectoryParser(),
+                   new DefaultAssemblyParser())
+        {
+        }
+
+        public Migrator(
+            IDatabase database,
+            IDirectoryParser directoryParser,
+            IAssemblyParser assemblyParser)
         {
             _database = database;
-            _migrationDirectoryParser = new MigrationDirectoryParser();
-            _migrationAssemblyParser = new MigrationAssemblyParser();
+            _directoryParser = directoryParser;
+            _assemblyParser = assemblyParser;
             _pipeline = new MigratorPipeline();
         }
 
@@ -110,11 +121,11 @@ namespace Exodus
             if (_migrationsAssemblyName == null)
             {
                 var projectDirectory = _migrationsDirectoryPath ?? Directory.GetCurrentDirectory();
-                return _migrationDirectoryParser.Parse(projectDirectory);
+                return _directoryParser.Parse(projectDirectory);
             }
             try
             {
-                return _migrationAssemblyParser.Parse(_migrationsAssemblyName);
+                return _assemblyParser.Parse(_migrationsAssemblyName);
             }
             catch (FileNotFoundException)
             {

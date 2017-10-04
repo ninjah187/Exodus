@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Moq;
+using System.Reflection;
+using System.IO;
 
-namespace Exodus.Tests.CreateIfNotExists
+namespace Exodus.Tests.Unit.CreateIfNotExists
 {
     public class Tests
     {
@@ -12,7 +15,12 @@ namespace Exodus.Tests.CreateIfNotExists
         public async Task CreateIfNotExists_WhenNotExists_Created()
         {
             var database = new DatabaseMock();
-            var migrator = new Migrator(database);
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse(Directory.GetCurrentDirectory()))
+                .Returns(() => new Task<Migration>[0])
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
 
             await migrator
                 .CreateDatabaseIfNotExists()
@@ -20,13 +28,13 @@ namespace Exodus.Tests.CreateIfNotExists
 
             Assert.True(database.DatabaseExists);
             Assert.True(database.MigrationsTableExists);
-            Assert.Equal(0, database.AppliedMigrationVersions.Length);
-            Assert.Equal(2, database.AppliedMigrations.Count);
+            Assert.Equal(0, database.AppliedMigrations.Count);
             Assert.Equal(1, database.CreateIfNotExistsCounter);
             Assert.Equal(0, database.DropIfExistsCounter);
             Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
             Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
-            Assert.Equal(2, database.RunMigrationCounter);
+            Assert.Equal(0, database.RunMigrationCounter);
+            directoryParser.Verify();
         }
 
         [Fact]
@@ -36,7 +44,12 @@ namespace Exodus.Tests.CreateIfNotExists
             {
                 DatabaseExists = true
             };
-            var migrator = new Migrator(database);
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse(Directory.GetCurrentDirectory()))
+                .Returns(() => new Task<Migration>[0])
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
 
             await migrator
                 .CreateDatabaseIfNotExists()
@@ -44,13 +57,13 @@ namespace Exodus.Tests.CreateIfNotExists
 
             Assert.True(database.DatabaseExists);
             Assert.True(database.MigrationsTableExists);
-            Assert.Equal(0, database.AppliedMigrationVersions.Length);
-            Assert.Equal(2, database.AppliedMigrations.Count);
+            Assert.Equal(0, database.AppliedMigrations.Count);
             Assert.Equal(1, database.CreateIfNotExistsCounter);
             Assert.Equal(0, database.DropIfExistsCounter);
             Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
             Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
-            Assert.Equal(2, database.RunMigrationCounter);
+            Assert.Equal(0, database.RunMigrationCounter);
+            directoryParser.Verify();
         }
     }
 }

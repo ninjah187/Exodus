@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus
+namespace Exodus.Parsers
 {
-    class MigrationAssemblyParser
+    public class DefaultAssemblyParser : IAssemblyParser
     {
         public IEnumerable<Task<Migration>> Parse(AssemblyName assemblyName)
         {

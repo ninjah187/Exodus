@@ -28,6 +28,7 @@ namespace Exodus
 
         public Migrator DropCreateDatabase()
         {
+            _pipeline.Setup.Add(async () => Log($"Drop and create database: {_database.Name}"));
             _pipeline.Setup.Add(() => _database.DropIfExists());
             _pipeline.Setup.Add(() => _database.CreateIfNotExists());
             return this;
@@ -75,12 +76,12 @@ namespace Exodus
             }
             await _database.CreateMigrationsTableIfNotExists();
             await BuildMigrationsPipeline();
-            Log("Run migrations:");
+            Log("Apply migrations:");
             foreach (var middleware in _pipeline.Migrations)
             {
                 await middleware();
             }
-            Log("Completed");
+            Log($"{_pipeline.Migrations.Count} migrations applied");
         }
 
         public void Migrate()
@@ -118,7 +119,7 @@ namespace Exodus
             catch (FileNotFoundException)
             {
                 throw new InvalidOperationException(
-                    $"Assembly {_migrationsAssemblyName.FullName} not found." +
+                    $"Assembly {_migrationsAssemblyName.FullName} not found. " +
                     $"Check if migrations project is referenced and " +
                     $"consider using full assembly name.");
             }

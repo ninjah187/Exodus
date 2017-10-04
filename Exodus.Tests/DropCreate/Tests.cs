@@ -21,10 +21,12 @@ namespace Exodus.Tests.DropCreate
             Assert.True(database.DatabaseExists);
             Assert.True(database.MigrationsTableExists);
             Assert.Equal(0, database.AppliedMigrationVersions.Length);
+            Assert.Equal(2, database.AppliedMigrations.Count);
             Assert.Equal(1, database.CreateIfNotExistsCounter);
             Assert.Equal(1, database.DropIfExistsCounter);
             Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
             Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
+            Assert.Equal(2, database.RunMigrationCounter);
         }
 
         [Fact]
@@ -43,10 +45,12 @@ namespace Exodus.Tests.DropCreate
             Assert.True(database.DatabaseExists);
             Assert.True(database.MigrationsTableExists);
             Assert.Equal(0, database.AppliedMigrationVersions.Length);
+            Assert.Equal(2, database.AppliedMigrations.Count);
             Assert.Equal(1, database.CreateIfNotExistsCounter);
             Assert.Equal(1, database.DropIfExistsCounter);
             Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
             Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
+            Assert.Equal(2, database.RunMigrationCounter);
         }
     }
 }

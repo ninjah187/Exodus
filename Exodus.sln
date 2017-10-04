@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Examples", "Exodus.E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Migrations", "Exodus.Migrations\Exodus.Migrations.csproj", "{90F52757-2686-469E-83F1-92304E5DA203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.SqlServer", "Exodus.SqlServer\Exodus.SqlServer.csproj", "{C889AB15-9B6C-4860-A931-A4FA605BA93D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.SqlServer", "Exodus.SqlServer\Exodus.SqlServer.csproj", "{C889AB15-9B6C-4860-A931-A4FA605BA93D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Tests", "Exodus.Tests\Exodus.Tests.csproj", "{053BB2CD-5C49-4C18-BA76-12C28A3BCC03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Tests.Migrations", "Exodus.Tests.Migrations\Exodus.Tests.Migrations.csproj", "{FB3827D2-7A31-464B-8B70-80F0E002FAE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C889AB15-9B6C-4860-A931-A4FA605BA93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C889AB15-9B6C-4860-A931-A4FA605BA93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C889AB15-9B6C-4860-A931-A4FA605BA93D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053BB2CD-5C49-4C18-BA76-12C28A3BCC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053BB2CD-5C49-4C18-BA76-12C28A3BCC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053BB2CD-5C49-4C18-BA76-12C28A3BCC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053BB2CD-5C49-4C18-BA76-12C28A3BCC03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB3827D2-7A31-464B-8B70-80F0E002FAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3827D2-7A31-464B-8B70-80F0E002FAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3827D2-7A31-464B-8B70-80F0E002FAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3827D2-7A31-464B-8B70-80F0E002FAE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

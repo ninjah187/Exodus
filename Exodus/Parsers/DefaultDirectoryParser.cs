@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus
+namespace Exodus.Parsers
 {
-    class MigrationDirectoryParser
+    public class DefaultDirectoryParser : IDirectoryParser
     {
         public IEnumerable<Task<Migration>> Parse(string directoryPath)
         {

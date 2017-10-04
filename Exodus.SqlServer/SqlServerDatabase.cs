@@ -18,7 +18,6 @@ namespace Exodus.SqlServer
         public SqlServerDatabase(string connectionString)
         {
             _connectionString = connectionString;
-
             var builder = new SqlConnectionStringBuilder(_connectionString);
             Name = builder.InitialCatalog;
             builder.InitialCatalog = "";

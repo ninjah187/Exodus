@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Exodus.Core\Exodus.Core.csproj" />
     <ProjectReference Include="..\Exodus.Tests.Migrations\Exodus.Tests.Migrations.csproj" />
-    <ProjectReference Include="..\Exodus\Exodus.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Exodus.Core" Version="1.0.0-rc" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Exodus.Migrations\Exodus.Migrations.csproj" />
     <ProjectReference Include="..\Exodus.SqlServer\Exodus.SqlServer.csproj" />
   </ItemGroup>

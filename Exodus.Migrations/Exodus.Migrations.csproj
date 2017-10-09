@@ -18,8 +18,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Exodus\Exodus.csproj" />
-  </ItemGroup>
-
 </Project>

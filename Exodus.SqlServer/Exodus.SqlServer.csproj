@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus.SqlServer</PackageId>
-    <PackageVersion>1.0.0-rc</PackageVersion>
+    <PackageVersion>1.0.1-rc</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Simple .NET Core 2.0 database migrator for SQL Server.</Description>
     <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>

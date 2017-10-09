@@ -15,15 +15,11 @@ namespace Exodus.Parsers
             var assembly = Assembly.Load(assemblyName);
             return assembly
                 .GetManifestResourceNames()
-                .Select(name => new
+                .Select(async name =>
                 {
-                    Name = name,
-                    Stream = assembly.GetManifestResourceStream(name)
-                })
-                .Select(async resource =>
-                {
-                    var migrationId = ParseResourceName(assemblyName, resource.Name);
-                    using (var reader = new StreamReader(resource.Stream))
+                    var migrationId = ParseResourceName(name);
+                    var stream = assembly.GetManifestResourceStream(name);
+                    using (var reader = new StreamReader(stream))
                     {
                         var sql = await reader.ReadToEndAsync();
                         return new Migration(migrationId.version, migrationId.name, sql);
@@ -31,7 +27,7 @@ namespace Exodus.Parsers
                 });
         }
 
-        private (int version, string name) ParseResourceName(AssemblyName assemblyName, string resourceName)
+        private (int version, string name) ParseResourceName(string resourceName)
         {
             var tokens = resourceName
                 .Split("-")

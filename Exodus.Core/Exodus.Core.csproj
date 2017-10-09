@@ -3,11 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus.Core</PackageId>
-    <PackageVersion>1.0.0-rc</PackageVersion>
+    <PackageVersion>1.0.1-rc</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Core components of Exodus - simple database migrator for .NET Core 2.0.</Description>
     <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>
+      - Travis CI build.
+    </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>
 

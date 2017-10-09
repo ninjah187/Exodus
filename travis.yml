@@ -1,0 +1,13 @@
+language: csharp
+solution: Exodus.sln
+mono: none
+dotnet: 2.0.0
+dist: trusty
+script:
+  - dotnet restore
+  - dotnet build
+  - dotnet test Exodus.Tests
+  - dotnet pack --no-restore -c Release Exodus.Core
+  - dotnet pack --no-restore -c Release Exodus.SqlServer
+  - nuget push Exodus.Core/bin/Release/*.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package
+  - nuget push Exodus.SqlServer/bin/Release/*.nupkg $NUGET_API_KEY

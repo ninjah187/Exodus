@@ -6,6 +6,8 @@ using Xunit;
 using Moq;
 using System.Reflection;
 using System.IO;
+using Exodus.Parsers;
+using Exodus.Core;
 
 namespace Exodus.Tests.Unit.CreateIfNotExists
 {

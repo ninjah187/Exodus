@@ -10,7 +10,7 @@ namespace Exodus.SqlServer.Commands
         readonly string _databaseName;
 
         public DropDatabaseIfExists(string connectionString, string databaseName)
-            : base(connectionString)
+            : base(connectionString, false)
         {
             _databaseName = databaseName;
             Sql = $@"

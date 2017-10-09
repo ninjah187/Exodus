@@ -8,9 +8,12 @@ namespace Exodus.SqlServer
 {
     abstract class Command : Message
     {
-        public Command(string connectionString)
+        readonly bool _isTransactional;
+
+        public Command(string connectionString, bool isTransactional = true)
             : base(connectionString)
         {
+            _isTransactional = isTransactional;
         }
 
         public async Task Execute()
@@ -21,7 +24,24 @@ namespace Exodus.SqlServer
             {
                 AddParameters(command.Parameters);
                 await connection.OpenAsync();
+                if (_isTransactional)
+                {
+                    await ExecuteInTransaction(connection, command);
+                }
+                else
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        async Task ExecuteInTransaction(SqlConnection connection, SqlCommand command)
+        {
+            using (var transaction = connection.BeginTransaction())
+            {
+                command.Transaction = transaction;
                 await command.ExecuteNonQueryAsync();
+                transaction.Commit();
             }
         }
     }

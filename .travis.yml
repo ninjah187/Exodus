@@ -4,12 +4,13 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 install:
-  - sudo apt install nuget -y
+  - sudo apt-get install mono-complete
+  - wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 script:
   - dotnet restore
   - dotnet build
   - dotnet test Exodus.Tests
-  - dotnet pack --no-restore -c Release Exodus.Core
-  - dotnet pack --no-restore -c Release Exodus.SqlServer
-  - nuget push Exodus.Core/bin/Release/*.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package
-  - nuget push Exodus.SqlServer/bin/Release/*.nupkg $NUGET_API_KEY
+  - dotnet pack --no-restore --configuration Release Exodus.Core
+  - mono nuget.exe push Exodus.Core/bin/Release/*.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package
+  - dotnet pack --no-restore --configuration Release Exodus.SqlServer
+  - mono nuget.exe push Exodus.SqlServer/bin/Release/*.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package

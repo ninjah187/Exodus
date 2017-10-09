@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Exodus
+namespace Exodus.Core
 {
     public class Migration
     {

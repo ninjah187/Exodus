@@ -6,15 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Exodus.Parsers;
+using Exodus.Database;
 
-namespace Exodus
+namespace Exodus.Core
 {
     public class Migrator
     {
         readonly IDatabase _database;
         readonly IDirectoryParser _directoryParser;
         readonly IAssemblyParser _assemblyParser;
-        readonly MigratorPipeline _pipeline;
+        readonly Pipeline _pipeline;
         string _migrationsDirectoryPath;
         AssemblyName _migrationsAssemblyName;
         Action<string> _log;
@@ -34,7 +35,7 @@ namespace Exodus
             _database = database;
             _directoryParser = directoryParser;
             _assemblyParser = assemblyParser;
-            _pipeline = new MigratorPipeline();
+            _pipeline = new Pipeline();
         }
 
         public Migrator DropCreateDatabase()

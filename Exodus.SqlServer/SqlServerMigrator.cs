@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Exodus.SqlServer;
+using Exodus.Core;
 
 namespace Exodus
 {

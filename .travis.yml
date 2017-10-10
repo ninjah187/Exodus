@@ -11,6 +11,6 @@ script:
   - dotnet build
   - dotnet test Exodus.Tests
   - dotnet pack --no-restore --configuration Release Exodus.Core
-  - nuget push Exodus.Core/bin/Release/*.nupkg -ApiKey $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package -Verbosity detailed
+  - mono nuget.exe push Exodus.Core/bin/Release/*.nupkg -ApiKey $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package -Verbosity detailed
   - dotnet pack --no-restore --configuration Release Exodus.SqlServer
-  - nuget push Exodus.SqlServer/bin/Release/*.nupkg -ApiKey $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package -Verbosity detailed
+  - mono nuget.exe push Exodus.SqlServer/bin/Release/*.nupkg -ApiKey $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package -Verbosity detailed

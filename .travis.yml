@@ -4,11 +4,8 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 install:
-  - curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg 
-  - sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-  - sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
-  - sudo apt-get update
-  - sudo apt-get install nuget
+  - sudo apt-get install mono-complete
+  - wget https://dist.nuget.org/win-x86-commandline/v3.4.4/nuget.exe
 script:
   - dotnet restore
   - dotnet build

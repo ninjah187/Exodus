@@ -8,8 +8,8 @@ namespace Exodus
 {
     public class SqlServerMigrator : Migrator
     {
-        public SqlServerMigrator(string connectionString)
-            : base(new SqlServerDatabase(connectionString))
+        public SqlServerMigrator(string databaseConnectionString)
+            : base(new SqlServerDatabase(databaseConnectionString))
         {
         }
     }

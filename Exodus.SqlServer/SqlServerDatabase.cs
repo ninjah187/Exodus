@@ -14,13 +14,13 @@ namespace Exodus.SqlServer
     {
         public string Name { get; }
 
-        readonly string _connectionString;
+        readonly string _databaseConnectionString;
         readonly string _serverConnectionString;
 
-        public SqlServerDatabase(string connectionString)
+        public SqlServerDatabase(string databaseConnectionString)
         {
-            _connectionString = connectionString;
-            var builder = new SqlConnectionStringBuilder(_connectionString);
+            _databaseConnectionString = databaseConnectionString;
+            var builder = new SqlConnectionStringBuilder(_databaseConnectionString);
             Name = builder.InitialCatalog;
             builder.InitialCatalog = "";
             _serverConnectionString = builder.ToString();
@@ -34,7 +34,7 @@ namespace Exodus.SqlServer
 
         public Task CreateMigrationsTableIfNotExists()
         {
-            var create = new CreateMigrationsTableIfNotExists(_connectionString);
+            var create = new CreateMigrationsTableIfNotExists(_databaseConnectionString);
             return create.Execute();
         }
 
@@ -46,13 +46,13 @@ namespace Exodus.SqlServer
 
         public Task<int[]> GetAppliedMigrationVersions()
         {
-            var get = new GetAppliedMigrationVersions(_connectionString);
+            var get = new GetAppliedMigrationVersions(_databaseConnectionString);
             return get.Execute();
         }
 
         public Task RunMigration(Migration migration)
         {
-            var run = new RunMigration(_connectionString, migration);
+            var run = new RunMigration(_databaseConnectionString, migration);
             return run.Execute();
         }
     }

@@ -11,6 +11,7 @@
       - Travis CI build.
     </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
+    <RootNamespace>Exodus</RootNamespace>
   </PropertyGroup>
 
 </Project>

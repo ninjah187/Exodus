@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Exodus.Core" Version="1.0.0-rc" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Exodus.SqlServer.Migrations\Exodus.SqlServer.Migrations.csproj" />
     <ProjectReference Include="..\Exodus.SqlServer\Exodus.SqlServer.csproj" />
   </ItemGroup>

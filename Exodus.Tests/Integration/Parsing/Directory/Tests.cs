@@ -1,6 +1,7 @@
 ﻿using Exodus.Parsers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,20 @@ namespace Exodus.Tests.Integration.Parsing.Directory
             Assert.True(migrations.Any(migration => migration.Version == 3 &&
                                                     migration.Name == "NestedMigration" &&
                                                     migration.Script == "-- Test migration 03"));
+        }
+
+        [Fact]
+        public async Task FromNotExistingDirectory()
+        {
+            var parser = new DefaultDirectoryParser();
+
+            Func<Task> act = async () =>
+            {
+                var tasks = parser.Parse("NotExistingDirectory");
+                var migrations = await Task.WhenAll(tasks);
+            };
+
+            await Assert.ThrowsAsync<DirectoryNotFoundException>(act);
         }
     }
 }

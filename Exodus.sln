@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Tests.Migrations", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Core", "Exodus.Core\Exodus.Core.csproj", "{387E6EA7-1931-4140-91EA-7E8FC2F66C3A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Npgsql", "Exodus.Npgsql\Exodus.Npgsql.csproj", "{B6B9FFD4-84EF-4108-BC92-99AA06A618D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{387E6EA7-1931-4140-91EA-7E8FC2F66C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{387E6EA7-1931-4140-91EA-7E8FC2F66C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{387E6EA7-1931-4140-91EA-7E8FC2F66C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B9FFD4-84EF-4108-BC92-99AA06A618D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B9FFD4-84EF-4108-BC92-99AA06A618D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B9FFD4-84EF-4108-BC92-99AA06A618D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B9FFD4-84EF-4108-BC92-99AA06A618D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

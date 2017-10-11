@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>Exodus.Npgsql</PackageId>
+    <PackageVersion>1.1.0-rc</PackageVersion>
+    <Authors>Karol Hinz</Authors>
+    <Description>Simple .NET Core 2.0 database migrator for PostgreSQL.</Description>
+    <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>
+    <PackageReleaseNotes>
+      - PostgreSQL support (9.5+, lower versions not tested).
+    </PackageReleaseNotes>
+    <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

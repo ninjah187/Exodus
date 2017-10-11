@@ -36,7 +36,7 @@ namespace Exodus.Tests.Integration.Parsing.Assembly
             
             Func<Task> act = async () =>
             {
-                var tasks = parser.Parse(new AssemblyName("NotExistsOrNotReferencedAssembly"));
+                var tasks = parser.Parse(new AssemblyName("NotExistingOrNotReferencedAssembly"));
                 var migrations = await Task.WhenAll(tasks);
             };
 

@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using System.Text;
 using Npgsql;
+using Exodus.Npgsql.Queries;
+using System.Threading.Tasks;
 
 namespace Exodus.Npgsql.Commands
 {
-    class CreateDatabaseIfNotExists : Command
+    class CreateDatabaseIfNotExists
     {
+        readonly string _serverConnectionString;
         readonly string _databaseName;
 
-        public CreateDatabaseIfNotExists(string connectionString, string databaseName)
-            : base(connectionString, false)
+        public CreateDatabaseIfNotExists(string serverConnectionString, string databaseName)
         {
+            _serverConnectionString = serverConnectionString;
             _databaseName = databaseName;
-            Sql = $@"
-                CREATE DATABASE IF NOT EXISTS @databaseName
-                WITH OWNER = 'postgres'
-                ENCODING = 'UTF8'
-                CONNECTION LIMIT = -1;
-            ";
         }
 
-        protected override void AddParameters(NpgsqlParameterCollection parameters)
+        public async Task Execute()
         {
-            parameters.Add(new NpgsqlParameter("databaseName", _databaseName));
+            var checkIfDatabaseExists = new CheckIfDatabaseExists(_serverConnectionString, _databaseName);
+            if (await checkIfDatabaseExists.Execute())
+            {
+                return;
+            }
+            var createDatabase = new CreateDatabase(_serverConnectionString, _databaseName);
+            await createDatabase.Execute();
         }
     }
 }

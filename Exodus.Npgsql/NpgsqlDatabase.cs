@@ -14,13 +14,13 @@ namespace Exodus.Npgsql
     {
         public string Name { get; }
 
-        readonly string _connectionString;
+        readonly string _databaseConnectionString;
         readonly string _serverConnectionString;
 
         public NpgsqlDatabase(string connectionString)
         {
-            _connectionString = connectionString;
-            var builder = new NpgsqlConnectionStringBuilder(_connectionString);
+            _databaseConnectionString = connectionString;
+            var builder = new NpgsqlConnectionStringBuilder(_databaseConnectionString);
             Name = builder.Database;
             builder.Database = "";
             _serverConnectionString = builder.ToString();
@@ -34,7 +34,7 @@ namespace Exodus.Npgsql
 
         public Task CreateMigrationsTableIfNotExists()
         {
-            var create = new CreateMigrationsTableIfNotExists(_connectionString);
+            var create = new CreateMigrationsTableIfNotExists(_databaseConnectionString);
             return create.Execute();
         }
 
@@ -46,13 +46,14 @@ namespace Exodus.Npgsql
 
         public Task<int[]> GetAppliedMigrationVersions()
         {
-            var get = new GetAppliedMigrationVersions(_connectionString);
+            var get = new GetAppliedMigrationVersions(_databaseConnectionString);
             return get.Execute();
         }
 
         public Task RunMigration(Migration migration)
         {
-            throw new NotImplementedException();
+            var run = new RunMigration(_databaseConnectionString, migration);
+            return run.Execute();
         }
     }
 }

@@ -10,12 +10,13 @@ namespace Exodus.Npgsql.Commands
     {
         readonly Migration _migration;
 
-        public RunMigration(string connectionString, Migration migration)
-            : base(connectionString)
+        public RunMigration(string databaseConnectionString, Migration migration)
+            : base(databaseConnectionString)
         {
             _migration = migration;
             Sql = $@"
-            
+                {migration.Script}
+                INSERT INTO Migrations VALUES (@version, @appliedOn, @name);
             ";
         }
 

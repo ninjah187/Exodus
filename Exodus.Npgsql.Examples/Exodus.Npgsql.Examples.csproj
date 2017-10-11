@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Exodus.Npgsql.Migrations\Exodus.Npgsql.Migrations.csproj" />
+    <ProjectReference Include="..\Exodus.Npgsql\Exodus.Npgsql.csproj" />
+  </ItemGroup>
+
+</Project>

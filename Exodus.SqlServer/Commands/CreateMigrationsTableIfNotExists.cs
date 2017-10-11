@@ -18,8 +18,7 @@ namespace Exodus.SqlServer.Commands
                     CREATE TABLE [dbo].[Migrations] (
                         [Version]       INT NOT NULL,
                         [AppliedOn]     DATETIME NOT NULL,
-                        [Name]          VARCHAR(1024) NOT NULL
-                    );
+                        [Name]          VARCHAR(1024) NOT NULL);
                 END
             ";
         }

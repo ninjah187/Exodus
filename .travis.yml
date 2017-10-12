@@ -6,7 +6,6 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 script:
-  - dotnet test Exodus.Tests
-  - dotnet pack --configuration Release Exodus.Core
-after_success:
-  - dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+  - dotnet test Exodus.Tests &&
+    dotnet pack --configuration Release Exodus.Core &&
+    dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package

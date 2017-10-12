@@ -195,4 +195,3 @@ It's not strict roadmap, rather features which are highly possible to show in th
 - ASP.NET Core integration.
 - CLI.
 - Integration tests for database engines.
-- More unit tests.

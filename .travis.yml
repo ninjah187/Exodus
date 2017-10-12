@@ -14,16 +14,18 @@ script:
   - dotnet pack --configuration Release Exodus.SqlServer
   - dotnet pack --configuration Release Exodus.Npgsql
 deploy:
-  skip_cleanup: true
   - provider: script
+    skip_cleanup: true
     script: dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
     on:
       branch: release/core
   - provider: script
+    skip_cleanup: true
     script: dotnet nuget push Exodus.SqlServer/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
     on:
       branch: release/sql-server
   - provider: script
+    skip_cleanup: true
     script: dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
     on:
       branch: release/npgsql

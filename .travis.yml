@@ -10,12 +10,20 @@ dotnet: 2.0.0
 dist: trusty
 script:
   - dotnet test Exodus.Tests
-  - test $TRAVIS_BRANCH = "release/core" &&
-    dotnet pack --configuration Release Exodus.Core &&
-    dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
-  - test $TRAVIS_BRANCH = "release/sql-server" &&
-    dotnet pack --configuration Release Exodus.SqlServer &&
-    dotnet nuget push Exodus.SqlServer/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
-  - test $TRAVIS_BRANCH = "release/postgresql" &&
-    dotnet pack --configuration Release Exodus.Npgsql &&
-    dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+  - dotnet pack --configuration Release Exodus.Core
+  - dotnet pack --configuration Release Exodus.SqlServer
+  - dotnet pack --configuration Release Exodus.Npgsql
+deploy:
+  skip_cleanup: true
+  - provider: script
+    script: dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/core
+  - provider: script
+    script: dotnet nuget push Exodus.SqlServer/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/sql-server
+  - provider: script
+    script: dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/npgsql

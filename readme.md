@@ -120,8 +120,8 @@ await migrator
 In order to load migrations from assembly, the assembly must be referenced in a calling project.
 Additionally, every migration file must have set properties:
 ```
-Build Action: 				Embedded resource
-Copy to Output Directory: 	Copy if newer
+Build Action: Embedded resource
+Copy to Output Directory: Copy if newer
 ```
 You can configure this in Visual Studio by right mouse button clicking on the file in Solution Explorer and selecting Properties from context menu.
 

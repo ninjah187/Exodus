@@ -2,7 +2,7 @@ branches:
   - release/core
   - release/sql-server
   - release/postgresql
-  - configure-ci
+  - configure/ci
 language: csharp
 solution: Exodus.sln
 mono: none

@@ -5,14 +5,11 @@
 - Friendly fluent API.
 - Forward-only migrations.
 - Database setup functions (useful especially in development environments).
----
 ## Supported databases:
 - SQL Server.
 - PostgreSQL (tested on 9.5+).
----
 ## Supported frameworks:
 - .NET Core 2.0.
----
 ## Usage:
 ### Installation
 All released Exodus versions can be obtained via NuGet Package Manager.
@@ -134,7 +131,6 @@ await migrator
 	.MigrateAsync();
 ```
 More examples can be seen in source code, in examples projects.
----
 ## Roadmap:
 It's not strict roadmap, rather features which are highly possible to show in the future, especially if anybody would request them explicitly.
 - Support for more database engines (looking at you, MySQL).
@@ -142,4 +138,3 @@ It's not strict roadmap, rather features which are highly possible to show in th
 - CLI.
 - Integration tests for database engines.
 - More unit tests.
----

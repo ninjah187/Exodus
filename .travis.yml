@@ -1,4 +1,6 @@
 branches:
+  - release/core
+  - release/sql-server
   - release/postgresql
 language: csharp
 solution: Exodus.sln
@@ -6,6 +8,23 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 script:
-  - dotnet test Exodus.Tests &&
-    dotnet pack --configuration Release Exodus.Npgsql &&
-    dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+  - dotnet test Exodus.Tests
+  - dotnet pack --configuration Release Exodus.Core
+  - dotnet pack --configuration Release Exodus.SqlServer
+  - dotnet pack --configuration Release Exodus.Npgsql
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: dotnet nuget push Exodus.Core/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/core
+  - provider: script
+    skip_cleanup: true
+    script: dotnet nuget push Exodus.SqlServer/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/sql-server
+  - provider: script
+    skip_cleanup: true
+    script: dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
+    on:
+      branch: release/npgsql

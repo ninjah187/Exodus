@@ -13,10 +13,12 @@
 ## Usage:
 ### Installation
 All released Exodus versions can be obtained via NuGet Package Manager.
+
 | Database   | Package          |
 | ---------- | ---------------- |
 | SQL Server | Exodus.SqlServer |
 | PostgreSQL | Exodus.Npgsql    |
+
 ### Migration
 Migration is a file. It should contain SQL script which executed transforms database state from one version to another. By convention, the file name has to be in given format:
 ```

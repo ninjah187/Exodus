@@ -23,10 +23,11 @@
 
 All released Exodus versions can be obtained via NuGet Package Manager.
 
-| Database   | Package          |
-| ---------- | ---------------- |
-| SQL Server | Exodus.SqlServer |
-| PostgreSQL | Exodus.Npgsql    |
+| Package          | Description                       | Version  | Build                                                                              |
+| ---------------- | --------------------------------- | -------- | ---------------------------------------------------------------------------------- |
+| Exodus.Core      | Core components and abstractions. | 1.1.2-rc | [![Build Status](https://travis-ci.org/ninjah187/Exodus.svg?branch=release%2Fcore)](https://travis-ci.org/ninjah187/Exodus) |
+| Exodus.SqlServer | Migrator for SQL Server.          | 1.1.2-rc | [![Build Status](https://travis-ci.org/ninjah187/Exodus.svg?branch=release%2Fsql-server)](https://travis-ci.org/ninjah187/Exodus) |
+| Exodus.Npgsql    | Migrator for PostgreSQL.          | 1.1.2-rc | [![Build Status](https://travis-ci.org/ninjah187/Exodus.svg?branch=release%2Fpostgresql)](https://travis-ci.org/ninjah187/Exodus) |
 
 ### Migration
 

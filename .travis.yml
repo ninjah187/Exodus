@@ -1,0 +1,4 @@
+branches:
+  - release/core
+  - release/sql-server
+  - release/postgresql

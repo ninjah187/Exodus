@@ -141,5 +141,131 @@ namespace Exodus.Tests.Unit.Logging
 
             directoryParser.Verify();
         }
+
+        [Fact]
+        public async Task OneMigration_OnExistingDatabaseWithLowerMigration_WithoutAdditionalOperations()
+        {
+            var database = new DatabaseMock
+            {
+                DatabaseExists = true
+            };
+            database.AppliedMigrations.Add(new Migration(1, "TestMigration 01", "-- Test migration 01"));
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse(Directory.GetCurrentDirectory()))
+                .Returns(() => new Task<Migration>[]
+                {
+                    Task.FromResult(new Migration(1, "TestMigration 01", "-- Test migration 01")),
+                    Task.FromResult(new Migration(2, "TestMigration 02", "-- Test migration 02"))
+                })
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
+
+            var logs = new List<string>();
+
+            await migrator
+                .Log(message => logs.Add(message))
+                .MigrateAsync();
+
+            Assert.True(database.DatabaseExists);
+            Assert.True(database.MigrationsTableExists);
+            Assert.Equal(2, database.AppliedMigrations.Count);
+            Assert.Equal(0, database.CreateIfNotExistsCounter);
+            Assert.Equal(0, database.DropIfExistsCounter);
+            Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
+            Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
+            Assert.Equal(1, database.RunMigrationCounter);
+
+            Assert.Equal(3, logs.Count);
+            Assert.Equal("Apply migrations:", logs[0]);
+            Assert.Equal("2 - TestMigration 02", logs[1]);
+            Assert.Equal("1 migrations applied", logs[2]);
+
+            directoryParser.Verify();
+        }
+
+        [Fact]
+        public async Task OneMigration_OnExistingDatabaseWithHigherMigration_WithoutAdditionalOperations()
+        {
+            var database = new DatabaseMock
+            {
+                DatabaseExists = true
+            };
+            database.AppliedMigrations.Add(new Migration(2, "TestMigration 02", "-- Test migration 02"));
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse(Directory.GetCurrentDirectory()))
+                .Returns(() => new Task<Migration>[]
+                {
+                    Task.FromResult(new Migration(1, "TestMigration 01", "-- Test migration 01")),
+                    Task.FromResult(new Migration(2, "TestMigration 02", "-- Test migration 02"))
+                })
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
+
+            var logs = new List<string>();
+
+            await migrator
+                .Log(message => logs.Add(message))
+                .MigrateAsync();
+
+            Assert.True(database.DatabaseExists);
+            Assert.True(database.MigrationsTableExists);
+            Assert.Equal(2, database.AppliedMigrations.Count);
+            Assert.Equal(0, database.CreateIfNotExistsCounter);
+            Assert.Equal(0, database.DropIfExistsCounter);
+            Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
+            Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
+            Assert.Equal(1, database.RunMigrationCounter);
+
+            Assert.Equal(3, logs.Count);
+            Assert.Equal("Apply migrations:", logs[0]);
+            Assert.Equal("1 - TestMigration 01", logs[1]);
+            Assert.Equal("1 migrations applied", logs[2]);
+
+            directoryParser.Verify();
+        }
+
+        [Fact]
+        public async Task NoMigrations_OnExistingDatabaseWithAllMigrationsApplied_WithoutAdditionalOperations()
+        {
+            var database = new DatabaseMock
+            {
+                DatabaseExists = true
+            };
+            database.AppliedMigrations.Add(new Migration(1, "TestMigration 01", "-- Test migration 01"));
+            database.AppliedMigrations.Add(new Migration(2, "TestMigration 02", "-- Test migration 02"));
+            var directoryParser = new Mock<IDirectoryParser>();
+            directoryParser
+                .Setup(parser => parser.Parse(Directory.GetCurrentDirectory()))
+                .Returns(() => new Task<Migration>[]
+                {
+                    Task.FromResult(new Migration(1, "TestMigration 01", "-- Test migration 01")),
+                    Task.FromResult(new Migration(2, "TestMigration 02", "-- Test migration 02"))
+                })
+                .Verifiable();
+            var migrator = new Migrator(database, directoryParser.Object, null);
+
+            var logs = new List<string>();
+
+            await migrator
+                .Log(message => logs.Add(message))
+                .MigrateAsync();
+
+            Assert.True(database.DatabaseExists);
+            Assert.True(database.MigrationsTableExists);
+            Assert.Equal(2, database.AppliedMigrations.Count);
+            Assert.Equal(0, database.CreateIfNotExistsCounter);
+            Assert.Equal(0, database.DropIfExistsCounter);
+            Assert.Equal(1, database.CreateMigrationsTableIfNotExistsCounter);
+            Assert.Equal(1, database.GetAppliedMigrationVersionsCounter);
+            Assert.Equal(0, database.RunMigrationCounter);
+
+            Assert.Equal(2, logs.Count);
+            Assert.Equal("Apply migrations:", logs[0]);
+            Assert.Equal("0 migrations applied", logs[1]);
+
+            directoryParser.Verify();
+        }
     }
 }

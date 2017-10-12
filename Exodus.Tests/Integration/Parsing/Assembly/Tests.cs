@@ -1,6 +1,7 @@
 ﻿using Exodus.Parsers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -26,6 +27,20 @@ namespace Exodus.Tests.Integration.Parsing.Assembly
             Assert.True(migrations.Any(migration => migration.Version == 2 &&
                                                     migration.Name == "TestMigration 02" &&
                                                     migration.Script == "-- Test migration 02"));
+        }
+
+        [Fact]
+        public async Task FromNotExistingOrNotReferencedAssembly()
+        {
+            var parser = new DefaultAssemblyParser();
+            
+            Func<Task> act = async () =>
+            {
+                var tasks = parser.Parse(new AssemblyName("NotExistingOrNotReferencedAssembly"));
+                var migrations = await Task.WhenAll(tasks);
+            };
+
+            await Assert.ThrowsAsync<FileNotFoundException>(act);
         }
     }
 }

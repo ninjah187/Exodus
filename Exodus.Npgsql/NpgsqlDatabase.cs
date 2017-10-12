@@ -1,28 +1,28 @@
-﻿using Exodus.Core;
-using Exodus.Database;
-using Exodus.SqlServer.Commands;
-using Exodus.SqlServer.Queries;
+﻿using Exodus.Database;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Text;
+using Exodus.Core;
 using System.Threading.Tasks;
+using Npgsql;
+using Exodus.Npgsql.Queries;
+using Exodus.Npgsql.Commands;
 
-namespace Exodus.SqlServer
+namespace Exodus.Npgsql
 {
-    public class SqlServerDatabase : IDatabase
+    public class NpgsqlDatabase : IDatabase
     {
         public string Name { get; }
 
         readonly string _databaseConnectionString;
         readonly string _serverConnectionString;
 
-        public SqlServerDatabase(string databaseConnectionString)
+        public NpgsqlDatabase(string connectionString)
         {
-            _databaseConnectionString = databaseConnectionString;
-            var builder = new SqlConnectionStringBuilder(_databaseConnectionString);
-            Name = builder.InitialCatalog;
-            builder.InitialCatalog = "";
+            _databaseConnectionString = connectionString;
+            var builder = new NpgsqlConnectionStringBuilder(_databaseConnectionString);
+            Name = builder.Database;
+            builder.Database = "";
             _serverConnectionString = builder.ToString();
         }
 

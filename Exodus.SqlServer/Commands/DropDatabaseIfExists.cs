@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Exodus.SqlServer.Commands
 {
-    class DropDatabaseIfExists : Command
+    class DropDatabaseIfExists : SqlServerCommand
     {
         readonly string _databaseName;
 

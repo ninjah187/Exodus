@@ -14,8 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Exodus.Core" Version="1.1.2-rc" />
     <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Exodus.Core\Exodus.Core.csproj" />
   </ItemGroup>
 
 </Project>

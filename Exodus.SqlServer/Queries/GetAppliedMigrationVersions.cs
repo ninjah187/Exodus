@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Exodus.SqlServer.Queries
 {
-    class GetAppliedMigrationVersions : Query<int[]>
+    class GetAppliedMigrationVersions : SqlServerQuery<int[]>
     {
         public GetAppliedMigrationVersions(string connectionString)
             : base(connectionString)

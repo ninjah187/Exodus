@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus.Npgsql.Commands
 {
-    class DropDatabase : Command
+    class DropDatabase : PostgresCommand
     {
         public DropDatabase(string serverConnectionString, string databaseName)
             : base(serverConnectionString, false)

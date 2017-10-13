@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace Exodus.Npgsql.Commands
 {
-    class RunMigration : Command
+    class RunMigration : PostgresCommand
     {
         readonly Migration _migration;
 

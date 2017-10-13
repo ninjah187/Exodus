@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus.Npgsql.Commands
 {
-    class CreateDatabase : Command
+    class CreateDatabase : PostgresCommand
     {
         public CreateDatabase(string connectionString, string databaseName)
             : base(connectionString, false)

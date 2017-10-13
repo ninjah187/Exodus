@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus.Npgsql.Commands
 {
-    class KillAllConnections : Command
+    class KillAllConnections : PostgresCommand
     {
         public KillAllConnections(string connectionString, string databaseName)
             : base(connectionString)

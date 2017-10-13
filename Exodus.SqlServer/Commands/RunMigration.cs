@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Exodus.SqlServer.Commands
 {
-    class RunMigration : Command
+    class RunMigration : SqlServerCommand
     {
         readonly Migration _migration;
 

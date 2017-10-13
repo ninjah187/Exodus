@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus.Npgsql.Commands
 {
-    class CreateMigrationsTableIfNotExists : Command
+    class CreateMigrationsTableIfNotExists : PostgresCommand
     {
         public CreateMigrationsTableIfNotExists(string connectionString)
             : base(connectionString)

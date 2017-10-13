@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.SqlServer.Examples",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.SqlServer.Migrations", "Exodus.SqlServer.Migrations\Exodus.SqlServer.Migrations.csproj", "{A3005960-2003-4619-8BB5-37DD43DC2704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Npgsql.Examples", "Exodus.Npgsql.Examples\Exodus.Npgsql.Examples.csproj", "{A6D30B99-6C66-480E-B195-5850231F1A83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Npgsql.Examples", "Exodus.Npgsql.Examples\Exodus.Npgsql.Examples.csproj", "{A6D30B99-6C66-480E-B195-5850231F1A83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Npgsql.Migrations", "Exodus.Npgsql.Migrations\Exodus.Npgsql.Migrations.csproj", "{7B06EC39-1E0E-41CC-914F-3713706D90CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Npgsql.Migrations", "Exodus.Npgsql.Migrations\Exodus.Npgsql.Migrations.csproj", "{7B06EC39-1E0E-41CC-914F-3713706D90CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

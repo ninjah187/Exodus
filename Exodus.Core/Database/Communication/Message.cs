@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Exodus.SqlServer
+namespace Exodus.Database.Communication
 {
-    class Message
+    public abstract class Message<TConnection, TCommand, TParameters>
+        where TConnection : IDbConnection
+        where TCommand : IDbCommand
+        where TParameters : IDataParameterCollection
     {
         protected string ConnectionString { get; }
         protected string Sql { get; set; }
@@ -14,11 +18,7 @@ namespace Exodus.SqlServer
         {
             ConnectionString = connectionString;
         }
-
-        protected virtual void AddParameters(SqlParameterCollection parameters)
-        {
-        }
-
+        
         protected virtual void Validate()
         {
             if (string.IsNullOrEmpty(ConnectionString))
@@ -29,6 +29,14 @@ namespace Exodus.SqlServer
             {
                 throw new ArgumentException("SQL statement is not defined.", nameof(Sql));
             }
+        }
+
+        protected abstract TConnection CreateConnection();
+        protected abstract TCommand CreateCommand(TConnection connection);
+        protected abstract Task OpenConnection(TConnection connection);
+
+        protected virtual void AddParameters(TParameters parameters)
+        {
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Exodus.SqlServer.Commands
 {
-    class CreateMigrationsTableIfNotExists : Command
+    class CreateMigrationsTableIfNotExists : SqlServerCommand
     {
         public CreateMigrationsTableIfNotExists(string connectionString)
             : base(connectionString)

@@ -27,4 +27,4 @@ deploy:
     skip_cleanup: true
     script: dotnet nuget push Exodus.Npgsql/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://www.nuget.org/api/v2/package
     on:
-      branch: release/npgsql
+      branch: release/postgresql

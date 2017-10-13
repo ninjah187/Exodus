@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace Exodus.Npgsql.Queries
 {
-    class CheckIfDatabaseExists : Query<bool>
+    class CheckIfDatabaseExists : PostgresQuery<bool>
     {
         public CheckIfDatabaseExists(string serverConnectionString, string databaseName)
             : base(serverConnectionString)

@@ -6,7 +6,7 @@ using Npgsql;
 
 namespace Exodus.Npgsql.Queries
 {
-    class GetAppliedMigrationVersions : Query<int[]>
+    class GetAppliedMigrationVersions : PostgresQuery<int[]>
     {
         public GetAppliedMigrationVersions(string connectionString)
             : base(connectionString)

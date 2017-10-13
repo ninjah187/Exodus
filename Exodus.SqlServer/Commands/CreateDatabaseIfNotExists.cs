@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Exodus.SqlServer.Commands
 {
-    class CreateDatabaseIfNotExists : Command
+    class CreateDatabaseIfNotExists : SqlServerCommand
     {
         readonly string _databaseName;
 

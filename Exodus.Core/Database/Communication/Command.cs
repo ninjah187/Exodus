@@ -4,7 +4,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Database.Communication
+namespace Exodus.Core.Database.Communication
 {
     public abstract class Command<TConnection, TCommand, TParameters> : Message<TConnection, TCommand, TParameters>
         where TConnection : IDbConnection

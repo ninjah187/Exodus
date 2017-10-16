@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Exodus.Database.Communication;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Exodus.Core.Database.Communication;
 
 namespace Exodus.SqlServer.Commands
 {

@@ -1,5 +1,5 @@
 ﻿using Exodus.Core;
-using Exodus.Database;
+using Exodus.Core.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;

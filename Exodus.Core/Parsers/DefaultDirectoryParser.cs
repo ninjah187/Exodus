@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Parsers
+namespace Exodus.Core.Parsers
 {
     public class DefaultDirectoryParser : IDirectoryParser
     {

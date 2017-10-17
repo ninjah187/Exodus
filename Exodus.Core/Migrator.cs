@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Exodus.Parsers;
-using Exodus.Database;
+using Exodus.Core.Parsers;
+using Exodus.Core.Database;
 
 namespace Exodus.Core
 {

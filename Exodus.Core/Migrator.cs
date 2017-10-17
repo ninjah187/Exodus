@@ -12,13 +12,14 @@ namespace Exodus.Core
 {
     public class Migrator
     {
-        readonly IDatabase _database;
-        readonly IDirectoryParser _directoryParser;
-        readonly IAssemblyParser _assemblyParser;
-        readonly Pipeline _pipeline;
-        string _migrationsDirectoryPath;
-        AssemblyName _migrationsAssemblyName;
-        Action<string> _log;
+        readonly IDatabase          _database;
+        readonly IDirectoryParser   _directoryParser;
+        readonly IAssemblyParser    _assemblyParser;
+        readonly Pipeline           _pipeline;
+
+        string          _directoryPath;
+        AssemblyName    _assemblyName;
+        Action<string>  _log;
 
         public Migrator(IDatabase database)
             : this(database,
@@ -70,13 +71,13 @@ namespace Exodus.Core
 
         public Migrator FromAssembly(AssemblyName assemblyName)
         {
-            _migrationsAssemblyName = assemblyName;
+            _assemblyName = assemblyName;
             return this;
         }
 
-        public Migrator FromDirectory(string migrationsDirectory)
+        public Migrator FromDirectory(string directoryPath)
         {
-            _migrationsDirectoryPath = migrationsDirectory;
+            _directoryPath = directoryPath;
             return this;
         }
 
@@ -88,7 +89,7 @@ namespace Exodus.Core
             }
             await _database.CreateMigrationsTableIfNotExists();
             await BuildMigrationsPipeline();
-            Log("Apply migrations:");
+            LogApplyMigrations();
             foreach (var middleware in _pipeline.Migrations)
             {
                 await middleware();
@@ -119,22 +120,38 @@ namespace Exodus.Core
 
         private IEnumerable<Task<Migration>> ParseMigrations()
         {
-            if (_migrationsAssemblyName == null)
-            {
-                var projectDirectory = _migrationsDirectoryPath ?? Directory.GetCurrentDirectory();
-                return _directoryParser.Parse(projectDirectory);
-            }
             try
             {
-                return _assemblyParser.Parse(_migrationsAssemblyName);
+                if (_assemblyName == null)
+                {
+                    _directoryPath = _directoryPath ?? Directory.GetCurrentDirectory();
+                    return _directoryParser.Parse(_directoryPath);
+                }
+                return _assemblyParser.Parse(_assemblyName);
             }
-            catch (FileNotFoundException)
+            catch (DirectoryNotFoundException exception)
             {
-                throw new InvalidOperationException(
-                    $"Assembly {_migrationsAssemblyName.FullName} not found. " +
-                    $"Check if migrations project is referenced and " +
-                    $"consider using full assembly name.");
+                throw new DirectoryNotFoundException(
+                    $"Directory {_directoryPath} was not found. " +
+                    $"Check correctness of target path.",
+                    exception);
             }
+            catch (FileNotFoundException exception)
+            {
+                throw new FileNotFoundException(
+                    $"Assembly {_assemblyName.FullName} was not found." +
+                    $"Check if migrations project is referenced. " +
+                    $"Consider using full assembly name.",
+                    exception);
+            }
+        }
+
+        private void LogApplyMigrations()
+        {
+            var source = _assemblyName == null
+                ? $"directory {_directoryPath}"
+                : $"assembly {_assemblyName.Name}";
+            Log($"Apply migrations from {source}:");
         }
 
         private void Log(string message)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exodus.Parsers
+namespace Exodus.Core.Parsers
 {
     public interface IDirectoryParser
     {

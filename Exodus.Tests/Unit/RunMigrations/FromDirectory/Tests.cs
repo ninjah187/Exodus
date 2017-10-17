@@ -1,5 +1,5 @@
 ﻿using Exodus.Core;
-using Exodus.Parsers;
+using Exodus.Core.Parsers;
 using Moq;
 using System;
 using System.Collections.Generic;

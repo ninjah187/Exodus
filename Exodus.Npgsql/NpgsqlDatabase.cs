@@ -1,4 +1,3 @@
-﻿using Exodus.Database;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using Npgsql;
 using Exodus.Npgsql.Queries;
 using Exodus.Npgsql.Commands;
+using Exodus.Core.Database;
 
 namespace Exodus.Npgsql
 {

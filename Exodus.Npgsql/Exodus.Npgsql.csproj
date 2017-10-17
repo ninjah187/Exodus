@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus.Npgsql</PackageId>
-    <PackageVersion>1.1.2-rc</PackageVersion>
+    <PackageVersion>1.1.3-rc</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Simple .NET Core 2.0 database migrator for PostgreSQL.</Description>
     <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>

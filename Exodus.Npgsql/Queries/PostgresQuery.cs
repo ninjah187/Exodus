@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Exodus.Database.Communication;
 using Npgsql;
+using Exodus.Core.Database.Communication;
 
 namespace Exodus.Npgsql.Queries
 {

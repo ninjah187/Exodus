@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Exodus.Database;
 using Exodus.Npgsql;
 
 namespace Exodus

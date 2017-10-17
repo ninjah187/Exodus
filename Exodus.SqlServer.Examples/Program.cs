@@ -5,18 +5,15 @@ namespace Exodus.SqlServer.Examples
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            MainAsync().Wait();
-        }
-
-        static async Task MainAsync()
+        static async Task Main(string[] args)
         {
             var migrator = new SqlServerMigrator(
-                "Server=(localDb)\\MSSQLLocalDB;Database=exodus.dev;Trusted_Connection=True;");
+                "Server=(localDb)\\MSSQLLocalDB;" +
+                "Database=exodus.dev;" +
+                "Trusted_Connection=True;");
             await migrator
                 .DropCreateDatabase()
-                .FromAssembly("Exodus.SqlServer.Examples")
+                .FromAssembly("dsadsad")
                 .LogToConsole()
                 .MigrateAsync();
             Console.ReadKey();

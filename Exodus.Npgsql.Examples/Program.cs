@@ -5,12 +5,7 @@ namespace Exodus.Npgsql.Examples
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            MainAsync().Wait();
-        }
-
-        static async Task MainAsync()
+        static async Task Main(string[] args)
         {
             var migrator = new NpgsqlMigrator(
                 "User ID=postgres;" +

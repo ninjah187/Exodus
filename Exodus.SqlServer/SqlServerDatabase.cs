@@ -1,5 +1,5 @@
 ﻿using Exodus.Core;
-using Exodus.Database;
+using Exodus.Core.Database;
 using Exodus.SqlServer.Commands;
 using Exodus.SqlServer.Queries;
 using System;

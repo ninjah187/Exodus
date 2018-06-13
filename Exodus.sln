@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.SqlServer", "Exodus.SqlServer\Exodus.SqlServer.csproj", "{C889AB15-9B6C-4860-A931-A4FA605BA93D}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Npgsql.Examples", "Exodus.Npgsql.Examples\Exodus.Npgsql.Examples.csproj", "{A6D30B99-6C66-480E-B195-5850231F1A83}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exodus.Npgsql.Migrations", "Exodus.Npgsql.Migrations\Exodus.Npgsql.Migrations.csproj", "{7B06EC39-1E0E-41CC-914F-3713706D90CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exodus.Cli", "Exodus.Cli\Exodus.Cli.csproj", "{75A5B58F-2A49-4695-8051-6FDEF43CAA54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{7B06EC39-1E0E-41CC-914F-3713706D90CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B06EC39-1E0E-41CC-914F-3713706D90CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B06EC39-1E0E-41CC-914F-3713706D90CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A5B58F-2A49-4695-8051-6FDEF43CAA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A5B58F-2A49-4695-8051-6FDEF43CAA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A5B58F-2A49-4695-8051-6FDEF43CAA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A5B58F-2A49-4695-8051-6FDEF43CAA54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Exodus.SqlServer.Commands
 {
@@ -14,17 +15,31 @@ namespace Exodus.SqlServer.Commands
             : base(connectionString)
         {
             _migration = migration;
-            Sql = $@"
-                {migration.Script}
-                INSERT INTO Migrations VALUES (@version, @appliedOn, @name);
-            ";
+            Sql = migration.Script;
         }
 
-        protected override void AddParameters(SqlParameterCollection parameters)
+        protected async override Task ExecuteCommandInTransaction(SqlCommand runMigration)
         {
-            parameters.Add(new SqlParameter("version", _migration.Version));
-            parameters.Add(new SqlParameter("appliedOn", DateTime.Now));
-            parameters.Add(new SqlParameter("name", _migration.Name));
+            var connection = runMigration.Connection;
+            var updateMigrationsInfo = CreateUpdateMigrationsInfoCommand(connection);
+            using (var transaction = connection.BeginTransaction())
+            {
+                runMigration.Transaction = transaction;
+                updateMigrationsInfo.Transaction = transaction;
+                await runMigration.ExecuteNonQueryAsync();
+                await updateMigrationsInfo.ExecuteNonQueryAsync();
+                transaction.Commit();
+            }
+        }
+
+        SqlCommand CreateUpdateMigrationsInfoCommand(SqlConnection connection)
+        {
+            var sql = "INSERT INTO Migrations VALUES (@version, @appliedOn, @name)";
+            var command = new SqlCommand(sql, connection);
+            command.Parameters.Add(new SqlParameter("version", _migration.Version));
+            command.Parameters.Add(new SqlParameter("appliedOn", DateTime.Now));
+            command.Parameters.Add(new SqlParameter("name", _migration.Name));
+            return command;
         }
     }
 }

@@ -39,6 +39,13 @@ namespace Exodus.Core
             _pipeline = new Pipeline();
         }
 
+        public Migrator DropDatabase()
+        {
+            _pipeline.Setup.Add(async () => Log($"Drop database: {_database.Name}"));
+            _pipeline.Setup.Add(() => _database.DropIfExists());
+            return this;
+        }
+
         public Migrator DropCreateDatabase()
         {
             _pipeline.Setup.Add(async () => Log($"Drop and create database: {_database.Name}"));

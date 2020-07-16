@@ -3,18 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PackageId>Exodus.Npgsql</PackageId>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.1.0</PackageVersion>
     <Authors>Karol Hinz</Authors>
     <Description>Simple .NET Core 2.0 database migrator for PostgreSQL.</Description>
     <ProjectUrl>https://github.com/ninjah187/Exodus</ProjectUrl>
     <PackageReleaseNotes>
-      - Npgsql 4.0.0 dependency update.
+      - Expose DropDatabase function.
     </PackageReleaseNotes>
     <PackageTags>database migration migrator simple migrations</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Exodus.Core" Version="1.0.0" />
+    <PackageReference Include="Exodus.Core" Version="1.1.0" />
     <PackageReference Include="Npgsql" Version="4.0.0" />
   </ItemGroup>
 

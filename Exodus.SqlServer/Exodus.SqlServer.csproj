@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Exodus.Core" Version="1.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
 </Project>
